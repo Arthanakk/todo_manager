@@ -1,0 +1,21 @@
+<h1>{{ project.title }}</h1>
+<h2>Todos</h2>
+<ul>
+    {% for todo in todos %}
+        <li>
+            {{ todo.description }} - {% if todo.is_completed %}Completed{% else %}Pending{% endif %}
+            {% if not todo.is_completed %}
+                <a href="{% url 'mark_complete' todo.id %}">Mark Complete</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <p>No todos yet.</p>
+    {% endfor %}
+</ul>
+
+<h2>Add a New Todo</h2>
+<form method="POST" action="{% url 'add_todo' project.id %}">
+    {% csrf_token %}
+    <input type="text" name="description" required>
+    <button type="submit">Add Todo</button>
+</form>
